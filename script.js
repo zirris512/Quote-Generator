@@ -3,12 +3,20 @@ const quoteText = document.querySelector("#quote");
 const authorText = document.querySelector("#author");
 const twitterBtn = document.querySelector("#twitter");
 const newQuoteBtn = document.querySelector("#new-quote");
+const loader = document.querySelector("#loader");
 
 let apiQuotes = [];
+
+// Set Loading
+function setLoading(isHidden) {
+    loader.hidden = !isHidden;
+    quoteContainer.hidden = isHidden;
+}
 
 // Get Quotes
 async function getQuotes() {
     const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json";
+    setLoading(true);
 
     try {
         const response = await fetch(apiUrl);
@@ -27,6 +35,7 @@ async function getQuotes() {
         apiQuotes = (await import("./quotes.js")).localQuotes;
     } finally {
         newQuote();
+        setLoading(false);
     }
 }
 
